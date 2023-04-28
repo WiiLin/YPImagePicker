@@ -7,23 +7,28 @@
 //
 
 import UIKit
+import Photos
 
-struct YPLibrarySelection {
+
+public struct YPLibrarySelection {
     let index: Int
     var cropRect: CGRect?
     var scrollViewContentOffset: CGPoint?
     var scrollViewZoomScale: CGFloat?
     let assetIdentifier: String
+    public let mediaType: PHAssetMediaType
     
     init(index: Int,
          cropRect: CGRect? = nil,
          scrollViewContentOffset: CGPoint? = nil,
          scrollViewZoomScale: CGFloat? = nil,
-         assetIdentifier: String) {
+         assetIdentifier: String,
+         mediaType: PHAssetMediaType) {
         self.index = index
         self.cropRect = cropRect
         self.scrollViewContentOffset = scrollViewContentOffset
         self.scrollViewZoomScale = scrollViewZoomScale
         self.assetIdentifier = assetIdentifier
+        self.mediaType = mediaType
     }
 }

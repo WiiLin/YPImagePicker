@@ -274,6 +274,10 @@ extension ExampleViewController {
 
 // YPImagePickerDelegate
 extension ExampleViewController: YPImagePickerDelegate {
+    func libraryViewShouldAddToSelection(didSelected: [YPLibrarySelection], new: YPLibrarySelection) -> Bool {
+        return true
+    }
+    
     func imagePickerHasNoItemsInLibrary(_ picker: YPImagePicker) {
         // PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
     }

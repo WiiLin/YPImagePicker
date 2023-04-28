@@ -87,8 +87,15 @@ extension YPLibraryVC {
             print("No asset to add to selection.")
             return
         }
+        
+        
 
-        let newSelection = YPLibrarySelection(index: indexPath.row, assetIdentifier: asset.localIdentifier)
+        let newSelection = YPLibrarySelection(index: indexPath.row, assetIdentifier: asset.localIdentifier, mediaType: asset.mediaType)
+        
+        if !(delegate?.libraryViewShouldAddToSelection(didSelected: self.selectedItems, new: newSelection) ?? true) {
+            return
+        }
+        
         selectedItems.append(newSelection)
         checkLimit()
     }
@@ -150,7 +157,7 @@ extension YPLibraryVC: UICollectionViewDelegate {
                                                       cropRect: currentSelection.cropRect,
                                                       scrollViewContentOffset: currentSelection.scrollViewContentOffset,
                                                       scrollViewZoomScale: currentSelection.scrollViewZoomScale,
-                                                      assetIdentifier: currentSelection.assetIdentifier)
+                                                          assetIdentifier: currentSelection.assetIdentifier, mediaType: currentSelection.mediaType)
             }
             cell.multipleSelectionIndicator.set(number: index + 1) // start at 1, not 0
         } else {

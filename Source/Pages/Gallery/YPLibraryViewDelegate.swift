@@ -8,12 +8,13 @@
 
 import Foundation
 
-@objc
+
 public protocol YPLibraryViewDelegate: AnyObject {
     func libraryViewDidTapNext()
     func libraryViewStartedLoadingImage()
     func libraryViewFinishedLoading()
     func libraryViewDidToggleMultipleSelection(enabled: Bool)
     func libraryViewShouldAddToSelection(indexPath: IndexPath, numSelections: Int) -> Bool
+    func libraryViewShouldAddToSelection(didSelected: [YPLibrarySelection], new: YPLibrarySelection) -> Bool
     func libraryViewHaveNoItems()
 }
