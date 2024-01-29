@@ -73,7 +73,7 @@ internal final class YPLibraryVC: UIViewController, YPPermissionCheckable {
                 }
                 
                 // The negative index will be corrected in the collectionView:cellForItemAt:
-                return YPLibrarySelection(index: -1, assetIdentifier: asset.localIdentifier, mediaType: asset.mediaType)
+                return YPLibrarySelection(index: -1, assetIdentifier: asset.localIdentifier, asset: asset)
             }
             v.assetViewContainer.setMultipleSelectionMode(on: isMultipleSelectionEnabled)
             v.collectionView.reloadData()
@@ -189,33 +189,31 @@ internal final class YPLibraryVC: UIViewController, YPPermissionCheckable {
 
         if isMultipleSelectionEnabled {
             let needPreselectItemsAndNotSelectedAnyYet = selectedItems.isEmpty && YPConfig.library.preSelectItemOnMultipleSelection
-            let shouldSelectByDelegate = delegate?.libraryViewShouldAddToSelection(indexPath: IndexPath(row: currentlySelectedIndex, section: 0), numSelections: selectedItems.count) ?? true
-            
-            let shouldSelectByDelegate2: Bool = {
+//            let shouldSelectByDelegate = delegate?.libraryViewShouldAddToSelection(indexPath: IndexPath(row: currentlySelectedIndex, section: 0), numSelections: selectedItems.count) ?? true
+
+            func shouldSelectByDelegate2() -> Bool {
                 guard let asset = mediaManager.getAsset(at: currentlySelectedIndex) else {
                     print("No asset to add to selection.")
-                    return shouldSelectByDelegate
+                    return false
                 }
 
-                let newSelection = YPLibrarySelection(index: currentlySelectedIndex, assetIdentifier: asset.localIdentifier, mediaType: asset.mediaType)
-                
+                let newSelection = YPLibrarySelection(index: currentlySelectedIndex, assetIdentifier: asset.localIdentifier, asset: asset)
+
                 let shouldSelectByDelegate2 = delegate?.libraryViewShouldAddToSelection(didSelected: selectedItems, new: newSelection) ?? true
 
                 return shouldSelectByDelegate2
-                
-            }()
-            
-            
-            
-            if needPreselectItemsAndNotSelectedAnyYet,
-               shouldSelectByDelegate,shouldSelectByDelegate2,
+            }
+
+
+
+            if needPreselectItemsAndNotSelectedAnyYet,shouldSelectByDelegate2(),
                let asset = mediaManager.getAsset(at: currentlySelectedIndex) {
                 selectedItems = [
                     YPLibrarySelection(index: currentlySelectedIndex,
                                        cropRect: v.currentCropRect(),
                                        scrollViewContentOffset: v.assetZoomableView.contentOffset,
                                        scrollViewZoomScale: v.assetZoomableView.zoomScale,
-                                       assetIdentifier: asset.localIdentifier, mediaType: asset.mediaType)
+                                       assetIdentifier: asset.localIdentifier, asset: asset)
                 ]
             }
         } else {

@@ -16,19 +16,19 @@ public struct YPLibrarySelection {
     var scrollViewContentOffset: CGPoint?
     var scrollViewZoomScale: CGFloat?
     let assetIdentifier: String
-    public let mediaType: PHAssetMediaType
-    
+    public let asset: PHAsset
+
     init(index: Int,
          cropRect: CGRect? = nil,
          scrollViewContentOffset: CGPoint? = nil,
          scrollViewZoomScale: CGFloat? = nil,
          assetIdentifier: String,
-         mediaType: PHAssetMediaType) {
+         asset: PHAsset) {
         self.index = index
         self.cropRect = cropRect
         self.scrollViewContentOffset = scrollViewContentOffset
         self.scrollViewZoomScale = scrollViewZoomScale
         self.assetIdentifier = assetIdentifier
-        self.mediaType = mediaType
+        self.asset = asset
     }
 }

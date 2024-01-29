@@ -90,8 +90,8 @@ extension YPLibraryVC {
         
         
 
-        let newSelection = YPLibrarySelection(index: indexPath.row, assetIdentifier: asset.localIdentifier, mediaType: asset.mediaType)
-        
+        let newSelection = YPLibrarySelection(index: indexPath.row, assetIdentifier: asset.localIdentifier, asset: asset)
+
         if !(delegate?.libraryViewShouldAddToSelection(didSelected: self.selectedItems, new: newSelection) ?? true) {
             return
         }
@@ -157,7 +157,7 @@ extension YPLibraryVC: UICollectionViewDelegate {
                                                       cropRect: currentSelection.cropRect,
                                                       scrollViewContentOffset: currentSelection.scrollViewContentOffset,
                                                       scrollViewZoomScale: currentSelection.scrollViewZoomScale,
-                                                          assetIdentifier: currentSelection.assetIdentifier, mediaType: currentSelection.mediaType)
+                                                          assetIdentifier: currentSelection.assetIdentifier, asset: currentSelection.asset)
             }
             cell.multipleSelectionIndicator.set(number: index + 1) // start at 1, not 0
         } else {
