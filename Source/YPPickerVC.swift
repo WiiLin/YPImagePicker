@@ -231,7 +231,7 @@ open class YPPickerVC: YPBottomPager, YPBottomPagerDelegate {
         if let navBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[.foregroundColor] as? UIColor {
             label.textColor = navBarTitleColor
         }
-        
+        /*
         if YPConfig.library.options != nil {
             titleView.subviews(
                 label
@@ -263,7 +263,32 @@ open class YPPickerVC: YPBottomPager, YPBottomPagerDelegate {
             |-(>=8)-label.centerHorizontally()-arrow-(>=8)-|
             align(horizontally: label-arrow)
         }
-        
+         */
+
+        let arrow = UIImageView()
+        arrow.image = YPConfig.icons.arrowDownIcon
+        arrow.image = arrow.image?.withRenderingMode(.alwaysTemplate)
+        arrow.tintColor = .ypLabel
+
+        let attributes = UINavigationBar.appearance().titleTextAttributes
+        if let attributes = attributes, let foregroundColor = attributes[.foregroundColor] as? UIColor {
+            arrow.image = arrow.image?.withRenderingMode(.alwaysTemplate)
+            arrow.tintColor = foregroundColor
+        }
+
+        let button = UIButton()
+        button.addTarget(self, action: #selector(navBarTapped), for: .touchUpInside)
+//        button.setBackgroundColor(UIColor.white.withAlphaComponent(0.5), forState: .highlighted)
+
+        titleView.subviews(
+            label,
+            arrow,
+            button
+        )
+        button.fillContainer()
+        |-(>=8)-label.centerHorizontally()-arrow-(>=8)-|
+        align(horizontally: label-arrow)
+
         label.firstBaselineAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -14).isActive = true
         
         titleView.heightAnchor.constraint(equalToConstant: 40).isActive = true

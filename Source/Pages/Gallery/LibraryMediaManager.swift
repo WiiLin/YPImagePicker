@@ -12,8 +12,18 @@ import Photos
 class LibraryMediaManager {
     
     weak var v: YPLibraryView?
-    var collection: PHAssetCollection?
-    internal var fetchResult: PHFetchResult<PHAsset>?
+    var collection: PHAssetCollection? = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil).firstObject
+    internal var fetchResult: PHFetchResult<PHAsset>? {
+        didSet {
+            dataSource = [PHAsset]()
+
+            fetchResult?.enumerateObjects { (asset, index, stop) in
+                self.dataSource.insert(asset, at: 0)
+            }
+        }
+
+    }
+    var dataSource: [PHAsset] = []
     internal var previousPreheatRect: CGRect = .zero
     internal var imageManager: PHCachingImageManager?
     internal var exportTimer: Timer?
@@ -228,6 +238,6 @@ class LibraryMediaManager {
             print("FetchResult not contain this index: \(index)")
             return nil
         }
-        return fetchResult.object(at: index)
+        return self.dataSource[index]
     }
 }
